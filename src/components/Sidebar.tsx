@@ -1,16 +1,16 @@
-// src/components/Sidebar.tsx
+import { NavLink } from "react-router-dom";
 import { 
-  Home, 
-  FileText, 
-  Package, 
-  LogOut, 
-  Users, 
+  LayoutDashboard, 
   ClipboardList, 
-  ListOrdered, 
+  Gauge, 
   ShieldCheck, 
-  Activity, 
-  TrendingUp, 
-  SearchCheck 
+  Boxes, 
+  Users, 
+  FileBarChart, 
+  Bell, 
+  History, 
+  LogOut,
+  ChevronRight
 } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,92 +19,86 @@ export default function Sidebar() {
   const user = {
     initials: "LR",
     name: "Lucas Rafael",
-    role: "Admin",
+    role: "System Admin",
   };
 
+  // Módulos sincronizados com a hierarquia da imagem
+  const menuItems = [
+    { label: "Dashboard", icon: <LayoutDashboard size={18} />, path: "/dashboard" },
+    { label: "Production Orders", icon: <ClipboardList size={18} />, path: "/production-orders" },
+    { label: "Production Panel", icon: <Gauge size={18} />, path: "/production-panel" },
+    { label: "Quality Inspection", icon: <ShieldCheck size={18} />, path: "/quality" },
+    { label: "Inventory", icon: <Boxes size={18} />, path: "/inventory" },
+    { label: "Users", icon: <Users size={18} />, path: "/users" },
+    { label: "Reports", icon: <FileBarChart size={18} />, path: "/reports" },
+    { label: "Notifications", icon: <Bell size={18} />, path: "/notifications" },
+    { label: "Audit Logs", icon: <History size={18} />, path: "/audit" },
+  ];
+
   return (
-    <aside className="flex flex-col h-screen w-64 bg-gradient-to-b from-black via-red-950 to-red-900 text-white">
+    <aside className="flex flex-col h-screen w-64 bg-gradient-to-b from-black via-[#2d0a0a] to-[#450a0a] text-slate-300 shadow-2xl border-r border-white/5">
       
-      {/* Header - Identidade */}
-      <div className="p-6 border-b border-white/10">
-        <h1 className="text-xl font-bold tracking-wider text-white">KIZUNA</h1>
-        <p className="text-[10px] uppercase opacity-60 tracking-[0.15em] font-medium">Industrial Management</p>
+      {/* BRANDING KIZUNA */}
+      <div className="p-6 mb-4">
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="w-9 h-9 bg-red-700 rounded flex items-center justify-center font-black text-white italic shadow-lg shadow-red-900/40">
+            K
+          </div>
+          <div>
+            <h1 className="text-xl font-black tracking-tighter text-white leading-none">KIZUNA</h1>
+          </div>
+        </div>
       </div>
 
-      {/* Navegação - Todos os módulos da imagem */}
-      <nav className="flex flex-col gap-1 p-4 flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10">
-        
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md bg-red-600/40 border border-red-500/50 text-white transition-colors">
-          <Home size={18} /> 
-          <span className="text-sm font-medium">Dashboard</span>
-        </a>
-        
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <Users size={18} /> 
-          <span className="text-sm font-medium">Users</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <ClipboardList size={18} /> 
-          <span className="text-sm font-medium">Production Orders</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <ListOrdered size={18} /> 
-          <span className="text-sm font-medium">Production Queue</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <Activity size={18} /> 
-          <span className="text-sm font-medium">Operator Panel</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <ShieldCheck size={18} /> 
-          <span className="text-sm font-medium">Quality Inspection</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <Package size={18} /> 
-          <span className="text-sm font-medium">Inventory</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <TrendingUp size={18} /> 
-          <span className="text-sm font-medium">Stock Movement</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <FileText size={18} /> 
-          <span className="text-sm font-medium">Reports</span>
-        </a>
-
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-white/10 transition-colors text-red-100/80 hover:text-white">
-          <SearchCheck size={18} /> 
-          <span className="text-sm font-medium">Audit</span>
-        </a>
+      {/* NAVIGATION ENGINE */}
+      <nav className="flex-1 px-4 space-y-1 overflow-y-auto scrollbar-none">
+        {menuItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) => `
+              group flex items-center justify-between px-4 py-3 rounded-lg text-[11px] font-black uppercase tracking-wider transition-all duration-300
+              ${isActive 
+                ? "bg-red-600 text-white shadow-lg shadow-red-900/40 border-l-4 border-white translate-x-1" 
+                : "hover:bg-white/5 hover:text-white text-slate-400"}
+            `}
+          >
+            <div className="flex items-center gap-3">
+              <span className="transition-colors group-hover:text-red-500">
+                {item.icon}
+              </span>
+              <span>{item.label}</span>
+            </div>
+            {/* O Chevron aparece apenas no item ativo para reforçar o foco operacional */}
+            <ChevronRight size={14} className="opacity-0 group-[.active]:opacity-100 transition-opacity" />
+          </NavLink>
+        ))}
       </nav>
 
-      {/* Rodapé - Usuário e Logout */}
-      <div className="mt-auto border-t border-white/10 p-4 space-y-4 bg-black/20">
-        <div className="flex items-center gap-3 px-2">
-          <Avatar className="h-10 w-10 border border-red-500/50 shrink-0">
-            <AvatarFallback className="bg-red-950 text-white text-xs">
-              {user.initials}
-            </AvatarFallback>
-          </Avatar>
+      {/* FOOTER - USER STATUS */}
+      <div className="p-4 mt-auto bg-black/40 backdrop-blur-md border-t border-white/5">
+        <div className="flex items-center gap-3 mb-4 px-2">
+          <div className="relative">
+            <Avatar className="h-10 w-10 border border-red-500/30">
+              <AvatarFallback className="bg-gradient-to-br from-red-700 to-red-900 text-white text-[10px] font-black">
+                {user.initials}
+              </AvatarFallback>
+            </Avatar>
+            {/* LED de Status Nominal */}
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-black rounded-full shadow-[0_0_8px_rgba(16,185,129,0.6)] animate-pulse" />
+          </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm font-semibold text-white truncate">{user.name}</span>
-            <span className="text-[10px] text-red-200/60 uppercase tracking-tighter">{user.role}</span>
+            <span className="text-xs font-black text-white truncate uppercase tracking-tighter">{user.name}</span>
+            <span className="text-[9px] text-slate-500 font-bold uppercase tracking-tight">System Nominal</span>
           </div>
         </div>
 
         <Button
           variant="ghost"
-          className="flex items-center gap-3 px-2 py-1 h-auto w-full justify-start text-red-200/70 hover:text-white hover:bg-white/10 font-normal transition-all"
+          className="w-full justify-start gap-3 text-slate-500 hover:text-red-400 hover:bg-red-400/10 h-10 px-3 font-black text-[10px] uppercase tracking-widest transition-all border border-transparent hover:border-red-900/50"
         >
           <LogOut size={16} />
-          <span className="text-sm">Logout</span>
+          Terminal Exit
         </Button>
       </div>
     </aside>

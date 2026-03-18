@@ -9,7 +9,10 @@ import ProductionQueue from "@/pages/orders/ProductionQueue"
 import ProductionPanel from "@/pages/production/ProductionPanel"
 import InventoryManagement from "@/pages/inventory/InventoryManagement"
 import StockMovements from "@/pages/inventory/StockMovements"
-import Analytics from "@/pages/analytics/Analytics"
+import QualityInspection from "@/pages/qualityInspection/QualityInspection"
+import NotificationsPage from "@/pages/notifications/Notifications"
+import Reports from "@/pages/reports/Reports"
+import AuditLogsPage from "@/pages/audit/AuditLogs"
 
 export default function App() {
   return (
@@ -26,7 +29,10 @@ export default function App() {
         <Route path="/production-panel" element={<ProductionPanel />} />
         <Route path="/inventory" element={<InventoryManagement />} />
         <Route path="/inventory/movements" element={<StockMovements />} />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/quality" element={<QualityInspection />} />
+        <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/audit" element={<AuditLogsPage />} />
 
       </Routes>
     </BrowserRouter>
