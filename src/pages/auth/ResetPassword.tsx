@@ -15,7 +15,7 @@ export default function ResetPassword() {
           Reset Password
         </h2>
 
-        <p className="text-sm text-slate-500 text-center">
+        <p className="text-sm text-slate-700 text-center">
           Enter your new password below.
         </p>
 

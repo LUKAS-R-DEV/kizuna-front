@@ -31,7 +31,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             Kizuna Industrial
           </h1>
 
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-700 text-sm">
             Production Management System
           </p>
 

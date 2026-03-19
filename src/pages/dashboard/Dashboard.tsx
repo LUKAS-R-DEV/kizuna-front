@@ -1,128 +1,178 @@
 import MainLayout from "@/layouts/MainLayout";
 import { 
-  TrendingUp, Activity, TriangleAlert, CheckCircle2, 
-  Clock, ChevronRight, PackageSearch, ShieldCheck,
-  Users, FileText, ClipboardList, BarChart3,
-  History, Inbox, ArrowUpRight
+  TrendingUp, TrendingDown, TriangleAlert, CheckCircle2, 
+  Package, ClipboardList
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-// Importando os dados mockados
-import { DASHBOARD_KPIS, PRODUCTION_QUEUE, INVENTORY_ALERTS } from "@/mocks/dashboardData";
+import { DASHBOARD_KPIS, PRODUCTION_QUEUE, INVENTORY_ALERTS, PENDING_INSPECTIONS } from "@/mocks/dashboardData";
 
 export default function Dashboard() {
+  
+  const getBadgeStyle = (priority: string) => {
+    switch (priority) {
+      case "High": return "bg-red-50 text-red-700 border-red-100";
+      case "Medium": return "bg-yellow-50 text-yellow-700 border-yellow-100";
+      case "Low": return "bg-green-50 text-green-700 border-green-100";
+      default: return "bg-slate-50 text-slate-700 border-slate-200";
+    }
+  };
+
+  const chartData = [
+    { day: "Mon", value: 45, max: 80 },
+    { day: "Tue", value: 55, max: 80 },
+    { day: "Wed", value: 48, max: 80 },
+    { day: "Thu", value: 62, max: 80 },
+    { day: "Fri", value: 55, max: 80 }
+  ];
+
   return (
     <MainLayout>
-      {/* mt-[-14px] para colar de vez no header e subir o conteúdo visualmente */}
-      <div className="px-8 pb-8 space-y-6 mt-[-14px]">
+      <div className="px-8 pb-12 space-y-6 pt-4 bg-[#f8fafc] min-h-screen">
         
-        {/* HEADER DE TÍTULO */}
-        <div className="flex items-end justify-between border-l-[6px] border-red-700 pl-5 py-3 bg-white/40 backdrop-blur-sm">
+        {/* HEADER DE TÍTULO PADRÃO */}
+        <div className="flex items-end justify-between border-l-[6px] border-red-700 pl-5 mb-8">
           <div className="flex flex-col text-left">
             <span className="text-[10px] font-black text-red-600 uppercase tracking-[0.4em] mb-1">
-              Live Monitor
+              System Overview
             </span>
             <div className="flex items-baseline gap-2">
               <h1 className="text-4xl font-black text-slate-900 tracking-tighter leading-none">
-                KIZUNA
+               DASHBOARD
               </h1>
-              <span className="text-3xl font-thin text-slate-300 tracking-tighter uppercase leading-none">
-                Dashboard
+              <span className="text-3xl font-thin text-slate-700 tracking-tighter uppercase leading-none">
+                
               </span>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 rounded-full border border-emerald-100">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-            </span>
-            <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">System Online</span>
           </div>
         </div>
 
         {/* 1. KPIs ESSENCIAIS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {DASHBOARD_KPIS.map((kpi, i) => (
-            <Card key={i} className="border-none shadow-sm bg-white relative overflow-hidden">
-              <div className={`absolute top-0 right-0 w-16 h-16 ${kpi.bg} rounded-bl-[3rem] flex items-start justify-end p-4`}>
-                <kpi.icon className={`${kpi.color} w-4 h-4`} />
+            <Card key={i} className="p-6 flex flex-col justify-between min-h-[145px] border-slate-200 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 !rounded-2xl bg-white group border-t-4 border-t-white hover:border-t-slate-100">
+              <div className="flex justify-between items-start">
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 ${kpi.bg}`}>
+                  <kpi.icon className={`w-5 h-5 ${kpi.color}`} strokeWidth={2.5} />
+                </div>
+                {kpi.trend && (
+                  <span className={`text-[11px] font-black uppercase tracking-widest flex items-center gap-1.5 px-2 py-1 bg-slate-50 rounded-lg border border-slate-100 ${kpi.trendColor}`}>
+                    {kpi.trendUp ? <TrendingUp size={14} strokeWidth={3} /> : <TrendingDown size={14} strokeWidth={3} />} 
+                    {kpi.trend}
+                  </span>
+                )}
               </div>
-              <CardHeader className="p-5 pb-0 text-left">
-                <CardTitle className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.2em]">
-                  {kpi.label}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-5 pt-1 text-left">
-                <div className="text-3xl font-black text-slate-900 tracking-tighter">{kpi.value}</div>
-              </CardContent>
+              <div className="text-left mt-3">
+                <p className="text-[11px] font-bold text-slate-800 uppercase tracking-widest mb-0.5 group-hover:text-slate-800 transition-colors">{kpi.label}</p>
+                <h3 className="text-3xl font-black text-slate-900 tracking-tighter leading-none">{kpi.value}</h3>
+              </div>
             </Card>
           ))}
         </div>
 
-        {/* 2. GRID PRINCIPAL */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* 2. GRID PRINCIPAL (Chart + Orders) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
           
-          {/* Fila de Produção */}
-          <Card className="lg:col-span-2 shadow-sm border-slate-100">
-            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-50 pb-4">
-              <CardTitle className="text-sm font-black uppercase tracking-tight text-slate-700">Next in Line</CardTitle>
-              <button className="text-[10px] font-black text-red-600 flex items-center gap-1 hover:underline">
-                VIEW ALL QUEUE <ArrowUpRight size={14} />
-              </button>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="divide-y divide-slate-50">
-                {PRODUCTION_QUEUE.map((po, i) => (
-                  <div key={i} className="flex items-center justify-between p-4 hover:bg-slate-50/50 transition-colors">
-                    <div className="flex flex-col text-left">
-                      <span className="text-[10px] font-mono text-red-700 font-bold">{po.id}</span>
-                      <span className="text-sm font-bold text-slate-800">{po.name}</span>
-                    </div>
-                    <div className="flex items-center gap-6">
-                      <div className="flex flex-col items-end">
-                        <span className="text-[9px] font-bold text-slate-400 uppercase">Est. Time</span>
-                        <span className="text-xs font-mono font-bold text-slate-600">{po.deadline}</span>
-                      </div>
-                      <Badge variant={po.variant} className="text-[9px] font-black h-5 px-3 uppercase">
-                        {po.priority}
-                      </Badge>
-                    </div>
+          {/* Chart Card */}
+          <Card className="p-7 flex flex-col border-slate-200 shadow-sm !rounded-2xl min-h-[420px] bg-white">
+            <h2 className="text-sm font-black uppercase tracking-widest text-slate-800 mb-8 text-left">Production Metrics</h2>
+            
+            <div className="flex-1 relative flex items-end ml-4">
+              {/* Y Axis Grid Lines */}
+              <div className="absolute inset-0 flex flex-col justify-between text-left">
+                {[80, 60, 40, 20, 0].map((val) => (
+                  <div key={val} className="flex items-center w-full h-0 relative group/line">
+                    <span className="text-[10px] font-bold text-slate-800 absolute -left-7 -translate-y-[50%] bg-white pr-2 group-hover/line:text-blue-500 transition-colors w-8 text-right">{val}</span>
+                    <div className="w-full border-t border-dashed border-slate-100 relative z-0 group-hover/line:border-blue-100 transition-colors" />
                   </div>
                 ))}
               </div>
-            </CardContent>
+
+              {/* X Axis & Bars */}
+              <div className="relative z-10 w-full h-full flex items-end justify-around pl-4 pb-[1px]">
+                {chartData.map((data, i) => (
+                  <div key={i} className="flex flex-col items-center gap-3 w-14 h-full justify-end group/bar">
+                    {/* Tooltip Hover value */}
+                    <span className="text-[11px] font-black text-blue-600 opacity-0 group-hover/bar:opacity-100 group-hover/bar:translate-y-[-2px] transition-all duration-300">
+                      {data.value}
+                    </span>
+                    <div 
+                      className="w-full bg-slate-200/80 rounded-t-md group-hover/bar:bg-gradient-to-t group-hover/bar:from-blue-600 group-hover/bar:to-blue-400 shadow-inner group-hover/bar:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all duration-300 relative border border-slate-200 border-b-0 group-hover/bar:border-blue-500/50" 
+                      style={{ height: `${(data.value / data.max) * 100}%` }}
+                    >
+                      {/* Efeito highlight gloss na barra quando em hover */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover/bar:opacity-100 transition-opacity rounded-t-md" />
+                    </div>
+                    <span className="text-[11px] font-black text-slate-800 uppercase tracking-widest absolute -bottom-7 group-hover/bar:text-blue-600 transition-colors">{data.day}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </Card>
 
-          {/* Lateral: Alertas e Eficiência */}
-          <div className="space-y-6">
-            <Card className="border-l-4 border-l-red-600 shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-[11px] font-black text-red-900 uppercase flex items-center gap-2">
-                  <TriangleAlert size={14} /> Critical Stock
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {INVENTORY_ALERTS.map((alert, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-red-50/50 rounded-lg border border-red-100">
-                    <span className="text-xs font-bold text-slate-700">{alert.item}</span>
-                    <span className="text-xs font-black text-red-700">{alert.current}</span>
+          {/* Recent Orders List */}
+          <Card className="p-7 bg-white border-slate-200 shadow-sm !rounded-2xl flex flex-col flex-1 h-full">
+            <h2 className="text-sm font-black uppercase tracking-widest text-slate-800 mb-6 text-left">Recent Production Orders</h2>
+            
+            <div className="flex flex-col gap-3">
+              {PRODUCTION_QUEUE.map((po, i) => (
+                <div 
+                  key={i} 
+                  className="p-4 bg-slate-50/40 hover:bg-slate-50/80 border border-slate-100 hover:border-slate-200 rounded-xl transition-all duration-300 flex justify-between items-start text-left cursor-default shadow-sm hover:shadow-md"
+                >
+                  <div>
+                    <h4 className="font-bold text-slate-900 tracking-tight">{po.id}</h4>
+                    <p className="text-[13px] font-bold text-slate-700 mt-0.5 mb-1">{po.name}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-800">Deadline: {po.deadline}</p>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="bg-slate-900 text-white overflow-hidden p-6 relative">
-              <div className="relative z-10 text-left">
-                <p className="text-[9px] font-black text-red-500 uppercase tracking-[.2em] mb-1">Overall Efficiency</p>
-                <h3 className="text-4xl font-black tracking-tighter">94.2%</h3>
-                <div className="flex items-center gap-1 mt-2 text-emerald-400 text-[10px] font-bold">
-                  <TrendingUp size={12} /> ON TARGET
+                  <Badge variant="outline" className={`!text-[10px] !font-black !uppercase !tracking-widest !px-3 !py-1 shadow-sm bg-white ${getBadgeStyle(po.priority)}`}>
+                    {po.priority}
+                  </Badge>
                 </div>
-              </div>
-              <div className="absolute -right-6 -bottom-6 w-24 h-24 border-[12px] border-white/5 rounded-full" />
-            </Card>
-          </div>
+              ))}
+            </div>
+          </Card>
+
+        </div>
+
+        {/* BOTTOM ROW START (Alarms & Inspections) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 pb-12 mt-8">
+          
+          <Card className="p-7 border-slate-200 shadow-sm !rounded-2xl bg-white">
+            <h2 className="text-sm font-black uppercase tracking-widest text-slate-800 text-left mb-6">Low Inventory Alerts</h2>
+            <div className="flex flex-col gap-3">
+              {INVENTORY_ALERTS.map((alert, i) => (
+                <div key={i} className="flex items-center justify-between p-4 bg-amber-50/40 border-l-4 border-l-amber-400 rounded-r-xl rounded-l-[3px] border-y border-r border-slate-100 hover:bg-amber-100/40 hover:border-y-amber-200/50 hover:border-r-amber-200/50 transition-all duration-300 shadow-sm hover:shadow-md">
+                  <div className="text-left">
+                     <h4 className="font-bold text-slate-900 tracking-tight">{alert.item}</h4>
+                    <p className="text-[11px] font-bold text-slate-700 mt-1 uppercase tracking-widest">
+                      Current: <span className="text-slate-700">{alert.current}</span> <span className="text-slate-700 mx-1">/</span> Min: {alert.min}
+                    </p>
+                  </div>
+                  <TriangleAlert size={18} className="text-amber-500 drop-shadow-sm" />
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="p-7 border-slate-200 shadow-sm !rounded-2xl bg-white">
+            <h2 className="text-sm font-black uppercase tracking-widest text-slate-800 text-left mb-6">Pending Inspections</h2>
+            <div className="flex flex-col gap-3">
+              {PENDING_INSPECTIONS.map((insp, i) => (
+                <div key={i} className="p-4 bg-slate-50/40 hover:bg-slate-50/80 border border-slate-100 hover:border-slate-200 rounded-xl transition-all duration-300 flex justify-between items-start text-left shadow-sm hover:shadow-md">
+                  <div>
+                    <h4 className="font-bold text-slate-900 tracking-tight">{insp.id}</h4>
+                    <p className="text-[13px] font-bold text-slate-700 mt-0.5 mb-1">{insp.product}</p>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-800">{insp.date}</p>
+                  </div>
+                  <Badge variant="outline" className="bg-orange-50 text-orange-600 border-orange-200 !text-[10px] !font-black !uppercase !tracking-widest !px-3 !py-1 shadow-sm">
+                    {insp.status}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </Card>
+          
         </div>
 
       </div>

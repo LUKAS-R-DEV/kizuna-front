@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom"; // Assumindo que você usa react-router
 import MainLayout from "@/layouts/MainLayout";
 import { Input } from "@/components/ui/input";
@@ -43,7 +44,7 @@ export default function StockMovements() {
                 <h1 className="text-4xl font-black text-slate-900 tracking-tighter leading-none uppercase">
                   Stock
                 </h1>
-                <span className="text-3xl font-thin text-slate-300 tracking-tighter uppercase leading-none">
+                <span className="text-4xl font-black text-red-600 tracking-tighter leading-none uppercase">
                   Movements
                 </span>
               </div>
@@ -66,12 +67,12 @@ export default function StockMovements() {
                     <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter text-slate-900">
                       New <span className="text-blue-600">Transaction</span>
                     </DialogTitle>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Stock Entry or Release // Kizuna Log</p>
+                    <p className="text-[10px] font-black text-slate-800 uppercase tracking-widest">Stock Entry or Release // Kizuna Log</p>
                   </DialogHeader>
                   
                   <div className="grid gap-4 py-4">
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Material Specification</label>
+                      <label className="text-[10px] font-black text-slate-800 uppercase ml-1">Material Specification</label>
                       <Select>
                         <SelectTrigger className="font-bold italic border-slate-200">
                           <SelectValue placeholder="Select from inventory..." />
@@ -88,7 +89,7 @@ export default function StockMovements() {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Operation Type</label>
+                        <label className="text-[10px] font-black text-slate-800 uppercase ml-1">Operation Type</label>
                         <Select>
                           <SelectTrigger className="font-bold italic border-slate-200">
                             <SelectValue placeholder="Type..." />
@@ -100,13 +101,13 @@ export default function StockMovements() {
                         </Select>
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Amount</label>
+                        <label className="text-[10px] font-black text-slate-800 uppercase ml-1">Amount</label>
                         <Input type="number" placeholder="0.00" className="font-bold italic border-slate-200" />
                       </div>
                     </div>
 
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black text-slate-400 uppercase ml-1">Reason / Reference Document</label>
+                      <label className="text-[10px] font-black text-slate-800 uppercase ml-1">Reason / Reference Document</label>
                       <Input placeholder="Ex: PO #1234 or Maintenance Request" className="font-bold italic border-slate-200" />
                     </div>
                   </div>
@@ -124,7 +125,7 @@ export default function StockMovements() {
           <div className="flex gap-1 bg-slate-100 p-1 rounded-lg w-fit">
             <button 
               onClick={() => navigate("/inventory")} // Rota da sua tela de Inventory
-              className="flex items-center gap-2 px-4 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all text-slate-500 hover:text-slate-700"
+              className="flex items-center gap-2 px-4 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all text-slate-700 hover:text-slate-700"
             >
               <Package size={14} /> Stock Levels
             </button>
@@ -137,38 +138,40 @@ export default function StockMovements() {
         </div>
 
         {/* FILTROS TÉCNICOS */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex gap-4 items-center">
+        <Card className="p-4 flex-row gap-4 items-center">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-800" size={16} />
             <Input placeholder="Filter by Material, ID or Operator..." className="pl-10 text-[11px] font-bold italic h-10 border-slate-200" />
           </div>
           <div className="flex gap-2">
-            <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-slate-500 gap-2">
+            <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-slate-700 gap-2">
               <Filter size={14} /> More Filters
             </Button>
             <div className="h-8 w-[1px] bg-slate-100 mx-2" />
             <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 text-[9px] font-black uppercase">Latest 100 Entries</Badge>
           </div>
-        </div>
+        </Card>
 
         {/* TABELA DE MOVIMENTAÇÕES */}
-        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+        <Card className="p-0 border-slate-200/60 overflow-hidden">
           <Table>
-            <TableHeader className="bg-slate-50/50">
+            <TableHeader>
               <TableRow>
-                <TableHead className="text-[9px] font-black uppercase pl-6 h-12">Entry ID</TableHead>
-                <TableHead className="text-[9px] font-black uppercase">Material Specification</TableHead>
-                <TableHead className="text-[9px] font-black uppercase text-center">Operation</TableHead>
-                <TableHead className="text-[9px] font-black uppercase text-center">Amount</TableHead>
-                <TableHead className="text-[9px] font-black uppercase">Authorized By</TableHead>
-                <TableHead className="text-[9px] font-black uppercase">Reason / Document</TableHead>
-                <TableHead className="text-[9px] font-black uppercase pr-6 text-right">Timestamp</TableHead>
+                <TableHead>Entry ID</TableHead>
+                <TableHead>Material Specification</TableHead>
+                <TableHead className="text-center">Operation</TableHead>
+                <TableHead className="text-center">Amount</TableHead>
+                <TableHead>Authorized By</TableHead>
+                <TableHead>Reason / Document</TableHead>
+                <TableHead className="text-right">Timestamp</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {MOVEMENTS_MOCK.map((mov) => (
-                <TableRow key={mov.id} className="group hover:bg-slate-50 transition-colors border-b border-slate-50/50">
-                  <TableCell className="pl-6 font-black text-slate-400 italic text-[10px]">{mov.id}</TableCell>
+                <TableRow key={mov.id}>
+                  <TableCell>
+                    <span className="font-black text-slate-800 italic text-[10px]">{mov.id}</span>
+                  </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
                       <span className="text-xs font-bold text-slate-700">{mov.materialName}</span>
@@ -188,7 +191,7 @@ export default function StockMovements() {
                   <TableCell className={`text-center font-black text-sm tracking-tighter ${mov.type === 'IN' ? 'text-emerald-600' : 'text-red-600'}`}>
                     {mov.quantity}
                   </TableCell>
-                  <TableCell className="text-[10px] font-bold text-slate-600">
+                  <TableCell className="text-[10px] font-bold text-slate-800">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[8px] font-black">
                         {mov.user.charAt(0)}
@@ -196,28 +199,28 @@ export default function StockMovements() {
                       {mov.user}
                     </div>
                   </TableCell>
-                  <TableCell className="text-[10px] font-medium text-slate-400 italic max-w-[200px] truncate">
+                  <TableCell className="text-[10px] font-medium text-slate-800 italic max-w-[200px] truncate">
                     {mov.reason}
                   </TableCell>
-                  <TableCell className="text-right pr-6 font-mono text-[10px] text-slate-500">
-                    {mov.timestamp}
+                  <TableCell className="text-right">
+                    <span className="font-mono text-[10px] text-slate-700">{mov.timestamp}</span>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-        </div>
+        </Card>
 
         {/* RODAPÉ TÉCNICO */}
         <div className="flex justify-between items-center bg-slate-900 p-4 rounded-xl shadow-inner">
            <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.3em]">
+              <p className="text-[9px] font-black text-slate-800 uppercase tracking-[0.3em]">
                 Live Audit Stream Active <span className="text-slate-700">//</span> Kizuna Industrial Logistics
               </p>
            </div>
            <div className="flex gap-1">
-             <Button variant="ghost" size="sm" className="h-8 text-[9px] font-black text-slate-500 uppercase hover:text-white">Prev</Button>
+             <Button variant="ghost" size="sm" className="h-8 text-[9px] font-black text-slate-700 uppercase hover:text-white">Prev</Button>
              <Button variant="ghost" size="sm" className="h-8 text-[9px] font-black text-red-600 uppercase hover:bg-red-600/10">Next Page</Button>
            </div>
         </div>

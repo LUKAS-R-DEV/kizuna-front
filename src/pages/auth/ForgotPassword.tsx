@@ -18,12 +18,12 @@ export default function ForgotPassword() {
           Forgot Password
         </h2>
 
-        <p className="text-sm text-slate-500 text-center">
+        <p className="text-sm text-slate-700 text-center">
           Enter your email to reset your password.
         </p>
 
         <div className="relative">
-          <Mail className="absolute left-3 top-3 text-slate-400" size={18}/>
+          <Mail className="absolute left-3 top-3 text-slate-800" size={18}/>
           <Input placeholder="Email Address" className="pl-9 h-11" />
         </div>
 

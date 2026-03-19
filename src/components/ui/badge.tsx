@@ -5,21 +5,21 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium whitespace-nowrap transition-all focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "inline-flex items-center justify-center border transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 overflow-hidden !rounded-full !px-2.5 !py-0.5 !text-[10px] !font-bold !uppercase !tracking-widest shadow-sm backdrop-blur-sm whitespace-nowrap",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary/80 border-transparent",
         secondary:
-          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent",
         destructive:
-          "bg-red-600 text-white [a]:hover:bg-red-700 focus-visible:ring-red-200 dark:bg-red-700 dark:focus-visible:ring-red-300",
+          "bg-red-600 text-white hover:bg-red-700 border-transparent focus:ring-red-200",
         outline:
-          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+          "text-foreground hover:bg-muted/50 border-current border-opacity-20",
         ghost:
-          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+          "hover:bg-muted hover:text-slate-600",
         success:
-          "bg-green-600 text-white [a]:hover:bg-green-700 focus-visible:ring-green-200 dark:bg-green-700 dark:focus-visible:ring-green-300",
+          "bg-emerald-600 text-white hover:bg-emerald-700 border-transparent focus:ring-emerald-200",
         link: "text-primary underline-offset-4 hover:underline",
       },
     },

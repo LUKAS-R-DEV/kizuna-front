@@ -11,7 +11,7 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="w-full bg-slate-900 text-slate-400 py-2 px-6 border-t border-slate-800 fixed bottom-0 z-50">
+    <footer className="w-full bg-slate-900 text-slate-800 py-2 px-6 border-t border-slate-800 fixed bottom-0 z-50">
       <div className="max-w-[1800px] mx-auto flex items-center justify-between">
         
         {/* LADO ESQUERDO: STATUS DO SISTEMA */}
@@ -25,11 +25,11 @@ export default function Footer() {
           
           <div className="hidden md:flex items-center gap-4 border-l border-slate-700 pl-4 text-[9px] font-bold uppercase tracking-widest">
             <div className="flex items-center gap-1.5">
-              <Cpu size={12} className="text-slate-500" />
+              <Cpu size={12} className="text-slate-700" />
               <span>Core-v3.0.4</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <Wifi size={12} className="text-slate-500" />
+              <Wifi size={12} className="text-slate-700" />
               <span>Net: Secure</span>
             </div>
           </div>
@@ -47,16 +47,16 @@ export default function Footer() {
           <div className="flex items-center gap-4 text-[9px] font-bold uppercase tracking-widest border-r border-slate-700 pr-4">
             <div className="flex items-center gap-1.5">
               <ShieldCheck size={12} className="text-emerald-500/50" />
-              <span className="text-slate-500 text-[8px]">Encrypted Session</span>
+              <span className="text-slate-700 text-[8px]">Encrypted Session</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-300">
+          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-700">
             <Clock size={12} className="text-red-600" />
             <span>
               {time.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }).toUpperCase()}
             </span>
-            <span className="text-slate-600">|</span>
+            <span className="text-slate-800">|</span>
             <span className="font-black">
               {time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
             </span>

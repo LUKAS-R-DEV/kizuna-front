@@ -6,7 +6,7 @@ import { Bell, Trash2, CheckCheck, AlertTriangle, PlayCircle, CheckCircle2 } fro
 
 export default function NotificationsPage() {
   const stats = [
-    { label: "Total", val: MOCK_NOTIFICATIONS.length, color: "text-slate-600", bg: "bg-slate-50" },
+    { label: "Total", val: MOCK_NOTIFICATIONS.length, color: "text-slate-800", bg: "bg-slate-50" },
     { label: "Não Lidas", val: MOCK_NOTIFICATIONS.filter(n => n.isNew).length, color: "text-blue-600", bg: "bg-blue-50" },
     { label: "Produção", val: MOCK_NOTIFICATIONS.filter(n => n.category === 'Produção').length, color: "text-emerald-600", bg: "bg-emerald-50" },
     { label: "Estoque", val: MOCK_NOTIFICATIONS.filter(n => n.category === 'Estoque').length, color: "text-amber-600", bg: "bg-amber-50" },
@@ -17,7 +17,12 @@ export default function NotificationsPage() {
       <div className="px-8 pb-8 space-y-6 mt-[-14px]">
         {/* HEADER KIZUNA */}
         <div className="flex items-end justify-between border-l-[6px] border-red-700 pl-5 py-4 bg-white/40">
-          <h1 className="text-4xl font-black text-slate-900 tracking-tighter uppercase leading-none">Notifications</h1>
+          <div className="flex flex-col text-left">
+            <span className="text-[10px] font-black text-red-600 uppercase tracking-[0.4em] mb-1">Alerts & Updates</span>
+            <div className="flex items-baseline gap-2">
+              <h1 className="text-4xl font-black text-slate-900 tracking-tighter leading-none uppercase">Notifications</h1>
+            </div>
+          </div>
           <div className="flex gap-3">
             <Button variant="outline" className="text-[10px] font-black uppercase h-11 px-6 gap-2"><CheckCheck size={14} className="text-blue-600" /> Marcar Lidas</Button>
             <Button className="bg-red-600 text-white text-[10px] font-black uppercase h-11 px-6 gap-2"><Trash2 size={14} /> Limpar</Button>
@@ -29,7 +34,7 @@ export default function NotificationsPage() {
           {stats.map((s, i) => (
             <div key={i} className="bg-white p-5 rounded-xl border border-slate-100 flex items-center justify-between">
               <div>
-                <p className="text-[9px] font-black text-slate-400 uppercase">{s.label}</p>
+                <p className="text-[9px] font-black text-slate-800 uppercase">{s.label}</p>
                 <p className="text-3xl font-black text-slate-900 tracking-tighter">{s.val.toString().padStart(2, '0')}</p>
               </div>
               <div className={`w-12 h-12 rounded-lg ${s.bg} ${s.color} flex items-center justify-center`}><Bell size={18} /></div>
@@ -49,17 +54,17 @@ export default function NotificationsPage() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-1">
-                  <span className="text-[10px] font-black text-slate-400 italic">{notif.id}</span>
-                  <Badge className="bg-slate-100 text-slate-600 text-[8px] font-black uppercase border-none px-2">{notif.category}</Badge>
+                  <span className="text-[10px] font-black text-slate-800 italic">{notif.id}</span>
+                  <Badge className="bg-slate-100 text-slate-800 text-[8px] font-black uppercase border-none px-2">{notif.category}</Badge>
                   {notif.isNew && <Badge className="bg-red-600 text-white text-[8px] font-black uppercase animate-pulse">Nova</Badge>}
                 </div>
                 <h3 className="text-base font-black text-slate-900 uppercase tracking-tight">{notif.title}</h3>
-                <p className="text-xs text-slate-500 font-bold italic mt-1">{notif.description}</p>
-                <p className="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em] mt-3">TIMESTAMP: {notif.timestamp}</p>
+                <p className="text-xs text-slate-700 font-bold italic mt-1">{notif.description}</p>
+                <p className="text-[9px] font-black text-slate-700 uppercase tracking-[0.2em] mt-3">TIMESTAMP: {notif.timestamp}</p>
               </div>
               <div className="opacity-0 group-hover:opacity-100 flex gap-1">
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-blue-600"><CheckCheck size={16} /></Button>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-600"><Trash2 size={16} /></Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-800 hover:text-blue-600"><CheckCheck size={16} /></Button>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-800 hover:text-red-600"><Trash2 size={16} /></Button>
               </div>
             </div>
           ))}
